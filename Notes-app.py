@@ -61,4 +61,15 @@ def fetch_data_from_db() -> list:
 
         return data
 
-print(fetch_data_from_db())
+def get_unique_id():
+        connection = sqlite3.connect("notes.db")
+        curs = connection.cursor()
+
+        # rowid is a unique id that sqlite gives to an entry
+        curs.execute("SELECT rowid, * FROM notes")
+
+        data = curs.fetchall()
+
+        return data
+
+print(get_unique_id())
