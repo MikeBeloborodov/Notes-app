@@ -44,3 +44,21 @@ def insert_many_data(notes: list[str]):
         print("Inserted a lot of data...")
         print("Connection closed!")
 
+def fetch_data_from_db() -> list:
+        connection = sqlite3.connect('notes.db')
+        curs = connection.cursor()
+        curs.execute("SELECT * FROM notes")
+        
+        # curs.fetchall()
+        # curs.fetchmany()
+        # curs.fetchone()
+
+        # returns a list with every note
+        data = curs.fetchall()
+        
+        connection.commit()
+        connection.close()
+
+        return data
+
+print(fetch_data_from_db())
