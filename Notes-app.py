@@ -103,3 +103,18 @@ def update_data_base(new_text: str):
         conn.commit()
         conn.close()
 
+def delete_from_data_base():
+        conn = sqlite3.connect("notes.db")
+        curs = conn.cursor()
+
+        # don't forget % % from both sides, if this if not the beginning
+        # or the end of the text
+        curs.execute("""
+                DELETE from notes WHERE note_text LIKE '%3d%'
+        """)
+
+        print("Deleted from db!")
+        conn.commit()
+        conn.close()
+
+
