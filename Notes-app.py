@@ -65,11 +65,22 @@ def get_unique_id():
         connection = sqlite3.connect("notes.db")
         curs = connection.cursor()
 
-        # rowid is a unique id that sqlite gives to an entry
+        # rowid is a unique id that sqlite gives to an entry (1, 2, 3 ...)
         curs.execute("SELECT rowid, * FROM notes")
 
         data = curs.fetchall()
 
         return data
 
-print(get_unique_id())
+def search_data_base():
+        conn = sqlite3.connect("notes.db")
+        curs = conn.cursor()
+
+        # WHERE is a keyword for searching
+        # LIKE is a keyword for uncertain value
+        # % sign cuts this search word and searches in any strings
+        curs.execute("SELECT * FROM notes WHERE note_text LIKE '%First%'")
+        
+        searched_data = curs.fetchall()
+
+        return searched_data
