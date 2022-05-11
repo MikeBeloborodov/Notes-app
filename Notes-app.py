@@ -3,7 +3,7 @@ import datetime
 
 def make_database():
         # connects to a database file or creates it
-        connection = sqlite3.connect('notes.db')
+        connection = sqlite3.connect('notes.sql')
         # create a cursor
         curs = connection.cursor()
         # create a table
@@ -19,7 +19,7 @@ def make_database():
         connection.close()
 
 def insert_data_to_database(note_text: str):
-        connection = sqlite3.connect('notes.db')
+        connection = sqlite3.connect('notes.sql')
         print("Connected to database...")
         curs = connection.cursor()
         date = str(datetime.datetime.now())[:10]
@@ -29,7 +29,7 @@ def insert_data_to_database(note_text: str):
         print("Connection closed!")
 
 def insert_many_data(notes: list[str]):
-        connection = sqlite3.connect('notes.db')
+        connection = sqlite3.connect('notes.sql')
         print("Connected to database...")
         curs = connection.cursor()
         date = str(datetime.datetime.now())[:10]
@@ -45,7 +45,7 @@ def insert_many_data(notes: list[str]):
         print("Connection closed!")
 
 def fetch_data_from_db() -> list:
-        connection = sqlite3.connect('notes.db')
+        connection = sqlite3.connect('notes.sql')
         curs = connection.cursor()
         curs.execute("SELECT * FROM notes")
         
@@ -62,7 +62,7 @@ def fetch_data_from_db() -> list:
         return data
 
 def get_unique_id() -> list:
-        connection = sqlite3.connect("notes.db")
+        connection = sqlite3.connect("notes.sql")
         curs = connection.cursor()
 
         # rowid is a unique id that sqlite gives to an entry (1, 2, 3 ...)
@@ -73,7 +73,7 @@ def get_unique_id() -> list:
         return data
 
 def search_data_base():
-        conn = sqlite3.connect("notes.db")
+        conn = sqlite3.connect("notes.sql")
         curs = conn.cursor()
 
         # WHERE is a keyword for searching
@@ -86,7 +86,7 @@ def search_data_base():
         return searched_data
 
 def update_data_base(new_text: str):
-        conn = sqlite3.connect("notes.db")
+        conn = sqlite3.connect("notes.sql")
         curs = conn.cursor()
 
         date = str(datetime.datetime.now())[:10]
@@ -104,7 +104,7 @@ def update_data_base(new_text: str):
         conn.close()
 
 def delete_from_data_base():
-        conn = sqlite3.connect("notes.db")
+        conn = sqlite3.connect("notes.sql")
         curs = conn.cursor()
 
         # don't forget % % from both sides, if this if not the beginning
@@ -118,7 +118,7 @@ def delete_from_data_base():
         conn.close()
 
 def order_data_base() -> list:
-        conn = sqlite3.connect("notes.db")
+        conn = sqlite3.connect("notes.sql")
         curs = conn.cursor()
 
         # ASC - ascending, DESC - descending
