@@ -117,4 +117,22 @@ def delete_from_data_base():
         conn.commit()
         conn.close()
 
+def order_data_base() -> list:
+        conn = sqlite3.connect("notes.db")
+        curs = conn.cursor()
+
+        # ASC - ascending, DESC - descending
+        curs.execute("""
+        SELECT rowid, *
+        FROM notes
+        ORDER BY rowid DESC""")
+
+        data = curs.fetchall()
+
+        conn.commit()
+        conn.close()
+
+        return data
+
+
 
