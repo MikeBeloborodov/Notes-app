@@ -61,7 +61,7 @@ def fetch_data_from_db() -> list:
 
         return data
 
-def get_unique_id():
+def get_unique_id() -> list:
         connection = sqlite3.connect("notes.db")
         curs = connection.cursor()
 
@@ -84,3 +84,22 @@ def search_data_base():
         searched_data = curs.fetchall()
 
         return searched_data
+
+def update_data_base(new_text: str):
+        conn = sqlite3.connect("notes.db")
+        curs = conn.cursor()
+
+        date = str(datetime.datetime.now())[:10]
+        # you can update with keywords UPDATE tablename SET new value
+        # don't forget ' ' !!!!
+        # you can also use rowid to pinpoint certain 
+        curs.execute(f"""
+                UPDATE notes
+                SET note_text = '{new_text}',     
+                note_last_update = '{date}'
+                WHERE note_text LIKE '%First%'        
+        """)
+        print("Succesfully updated data base!")
+        conn.commit()
+        conn.close()
+
