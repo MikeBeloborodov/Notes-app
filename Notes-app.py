@@ -1,16 +1,15 @@
-import Database
-from Database import clear_console
-import msvcrt
+from Database import clear_console, handle_user_choice
 
-def main_loop():
+def main():
         while True:
                 clear_console()
                 print("Welcome to the notes program!")
-                print("1 - Add a note")
+                print("1 - Add note")
                 print("2 - View notes")
-                print("3 - Exit")
+                print("3 - Update note")
+                print("4 - Exit")
                 user_choice = input("Enter your number here: ")
-                Database.handle_user_choice(user_choice)
+                handle_user_choice(user_choice)
 
 if __name__ == "__main__":
-        main_loop()
+        main()

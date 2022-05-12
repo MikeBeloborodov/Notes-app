@@ -48,6 +48,31 @@ def retrieve_all_notes() -> list:
 
     return notes
 
+def update_note(updated_text: str, note_id: str):
+    conn = sqlite3.connect('notes.sql')
+    curs = conn.cursor()
+
+    curs.execute(f"""
+            UPDATE notes
+            SET text = '{updated_text}'
+            WHERE rowid = {note_id}
+    """)
+    conn.commit()
+    conn.close()
+
+def search_note_by_id(note_id: str) -> list:
+    conn = sqlite3.connect('notes.sql')
+    curs = conn.cursor()
+
+    curs.execute(f"""
+            SELECT rowid, *
+            FROM notes
+            WHERE rowid = {int(note_id)}
+    """)
+    note = curs.fetchall()
+    conn.close()
+    return note
+
 def press_any_key():
     print("Press any key...")
     msvcrt.getch()
@@ -104,8 +129,40 @@ def user_choice_exit_program():
         press_any_key()
         exit()
 
+def user_choice_update_note():
+    clear_console()
+    note_id = input("Enter the id of the note you want to change: ")
+    try:
+        int(note_id)
+    except:
+        print("Error. You should enter a number, not a text!")
+        print("Try again.")
+        press_any_key()
+        return
+    try:
+        old_note = search_note_by_id(note_id)
+    except:
+        print("Wrong id, or some other error... Try again.")
+        press_any_key()
+        return
+    if not old_note:
+        print("There is no such note! Try again.")
+        press_any_key()
+        return
+    print(f"Old text: {old_note[0][2]}")
+    updated_text = input("Enter updated text here: ")
+    try:
+        update_note(updated_text, note_id)
+        print("Success! Not has been updated.")
+        press_any_key()
+        return
+    except:
+        print("Error... Try again later")
+        press_any_key()
+        return
+
 def handle_user_choice(user_choice: str):
-    valid_choices = ['1', '2', '3']
+    valid_choices = ['1', '2', '3', '4']
     if user_choice not in valid_choices:
         print("Error. Please try again.")
         print("Press any key...")
@@ -116,4 +173,6 @@ def handle_user_choice(user_choice: str):
     elif user_choice == '2':
         user_choice_view_notes()
     elif user_choice == '3':
+        user_choice_update_note()
+    elif user_choice == '4':
         user_choice_exit_program()
