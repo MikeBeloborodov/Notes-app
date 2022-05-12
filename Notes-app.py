@@ -134,5 +134,26 @@ def order_data_base() -> list:
 
         return data
 
+def filter_search_with_and_or() -> list:
+        conn = sqlite3.connect('notes.sql')
+        curs = conn.cursor()
+
+        # you can add AND, OR filters for your search parameter
+        curs.execute("""
+                SELECT rowid, *
+                FROM notes
+                WHERE 
+                        note_text LIKE '%data%' 
+                                OR note_text LIKE '%have%' 
+                                        AND note_date LIKE '%2022%'
+        """)
+
+        data = curs.fetchall()
+
+        conn.commit()
+        conn.close()
+
+        return data
+
 
 
