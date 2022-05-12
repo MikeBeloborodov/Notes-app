@@ -7,7 +7,8 @@ def main():
                 print("1 - Add note")
                 print("2 - View notes")
                 print("3 - Update note")
-                print("4 - Exit")
+                print("4 - Delete note")
+                print("5 - Exit")
                 user_choice = input("Enter your number here: ")
                 handle_user_choice(user_choice)
 

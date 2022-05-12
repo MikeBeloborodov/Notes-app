@@ -73,8 +73,19 @@ def search_note_by_id(note_id: str) -> list:
     conn.close()
     return note
 
+def delete_note(note_id: str):
+    conn = sqlite3.connect("notes.sql")
+    curs = conn.cursor()
+
+    curs.execute(f"""
+            DELETE FROM notes
+            WHERE rowid = {note_id} 
+    """)
+    conn.commit()
+    conn.close()
+
 def press_any_key():
-    print("Press any key...")
+    print("\nPress any key...")
     msvcrt.getch()
 
 def clear_console():
@@ -161,8 +172,38 @@ def user_choice_update_note():
         press_any_key()
         return
 
+def user_choice_delete_note():
+    clear_console()
+    note_id = input("Enter the id of the note you want to delete: ")
+    try:
+        int(note_id)
+    except:
+        print("Error. You should enter a number, not a text!")
+        print("Try again.")
+        press_any_key()
+        return
+    try:
+        old_note = search_note_by_id(note_id)
+    except:
+        print("Wrong id, or some other error... Try again.")
+        press_any_key()
+        return
+    if not old_note:
+        print("There is no such note! Try again.")
+        press_any_key()
+        return
+    print("Deleting your note...")
+    try:
+        delete_note(note_id)
+    except:
+        print("Error, something went wrong... Try again.")
+        press_any_key()
+        return
+    print("Success! Your note has been removed.")
+    press_any_key()
+
 def handle_user_choice(user_choice: str):
-    valid_choices = ['1', '2', '3', '4']
+    valid_choices = ['1', '2', '3', '4', '5']
     if user_choice not in valid_choices:
         print("Error. Please try again.")
         print("Press any key...")
@@ -175,4 +216,6 @@ def handle_user_choice(user_choice: str):
     elif user_choice == '3':
         user_choice_update_note()
     elif user_choice == '4':
+        user_choice_delete_note()
+    elif user_choice == '5':
         user_choice_exit_program()
