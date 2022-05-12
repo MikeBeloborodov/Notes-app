@@ -84,6 +84,19 @@ def delete_note(note_id: str):
     conn.commit()
     conn.close()
 
+def search_by_keyword(keyword: str) -> list:
+    conn = sqlite3.connect('notes.sql')
+    curs = conn.cursor()
+
+    curs.execute(f"""
+            SELECT rowid, *
+            FROM notes
+            WHERE text LIKE '%{keyword}%'
+    """)
+    found_notes = curs.fetchall()
+    conn.close()
+    return found_notes
+
 def press_any_key():
     print("\nPress any key...")
     msvcrt.getch()
@@ -202,8 +215,26 @@ def user_choice_delete_note():
     print("Success! Your note has been removed.")
     press_any_key()
 
+def user_choice_search_by_keyword():
+    clear_console()
+    keyword = input("Enter the keyword: ")
+    found_notes = search_by_keyword(keyword)
+    if not found_notes:
+        print("Sorry, but it seems that there isn't a single note with this keyword :(")
+        print("Try something different.")
+        press_any_key()
+        return
+    clear_console()
+    for note in found_notes:
+        print("---------------------------")
+        print(f"Note id: {note[0]}")
+        print(f"Date added: {note[1]}")
+        print(f"Text: {note[2]}")
+    press_any_key()
+    return
+
 def handle_user_choice(user_choice: str):
-    valid_choices = ['1', '2', '3', '4', '5']
+    valid_choices = ['1', '2', '3', '4', '5', '6']
     if user_choice not in valid_choices:
         print("Error. Please try again.")
         print("Press any key...")
@@ -218,4 +249,6 @@ def handle_user_choice(user_choice: str):
     elif user_choice == '4':
         user_choice_delete_note()
     elif user_choice == '5':
+        user_choice_search_by_keyword()
+    elif user_choice == '6':
         user_choice_exit_program()
