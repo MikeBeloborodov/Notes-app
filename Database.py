@@ -155,6 +155,13 @@ def user_choice_exit_program():
 
 def user_choice_update_note():
     clear_console()
+    notes = retrieve_all_notes()
+    if not notes:
+        print("Database is empty :(")
+        print("Please add some notes!")
+        press_any_key()
+        return
+
     note_id = input("Enter the id of the note you want to change: ")
     try:
         int(note_id)
@@ -187,6 +194,13 @@ def user_choice_update_note():
 
 def user_choice_delete_note():
     clear_console()
+    notes = retrieve_all_notes()
+    if not notes:
+        print("Database is empty :(")
+        print("Please add some notes!")
+        press_any_key()
+        return
+
     note_id = input("Enter the id of the note you want to delete: ")
     try:
         int(note_id)
@@ -217,6 +231,13 @@ def user_choice_delete_note():
 
 def user_choice_search_by_keyword():
     clear_console()
+    notes = retrieve_all_notes()
+    if not notes:
+        print("Database is empty :(")
+        print("Please add some notes!")
+        press_any_key()
+        return
+        
     keyword = input("Enter the keyword: ")
     found_notes = search_by_keyword(keyword)
     if not found_notes:
