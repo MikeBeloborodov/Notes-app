@@ -155,5 +155,24 @@ def filter_search_with_and_or() -> list:
 
         return data
 
+def limit_search() -> list:
+        conn = sqlite3.connect('notes.sql')
+        curs = conn.cursor()
+
+        # we can limit the amount of data coming our way with keyword LIMIT
+        curs.execute("""
+                SELECT rowid, *
+                FROM notes
+                LIMIT 2
+        """)
+
+        data = curs.fetchall()
+
+        conn.commit()
+        conn.close()
+
+        return data
+
+
 
 
