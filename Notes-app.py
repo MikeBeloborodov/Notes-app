@@ -173,6 +173,39 @@ def limit_search() -> list:
 
         return data
 
+def delete_table():
+        conn = sqlite3.connect("notes.sql")
+        curs = conn.cursor()
+
+        #let's make a table and then delete it
+
+        curs.execute("""
+                CREATE TABLE test (
+                        test_row text,
+                        test_row2 integer,
+                        test_row3 real
+                )""")
+        conn.commit()
+
+        curs.execute("""
+                INSERT INTO test
+                VALUES ('abc', 3, 4.5)
+        """)
+        conn.commit()
+
+        curs.execute("""
+                SELECT *
+                FROM test
+        """)
+        print(curs.fetchall())
+
+        # to delete a table use DROP TABLE and name of the table
+        curs.execute("""
+                DROP TABLE test
+        """)
+
+        conn.commit()
+        conn.close()
 
 
 
